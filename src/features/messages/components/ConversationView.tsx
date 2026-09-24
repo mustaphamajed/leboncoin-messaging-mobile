@@ -1,4 +1,3 @@
-import { Stack } from 'expo-router';
 import { StyleSheet, View } from 'react-native';
 
 import { ErrorState, Spinner } from '@/components';
@@ -33,14 +32,7 @@ export function ConversationView({ conversationId }: { conversationId: number })
 
       {conversation && participant && (
         <View style={styles.fill}>
-          <Stack.Screen
-            options={{
-              title: participant.nickname,
-              headerTitle: () => (
-                <ConversationHeader participant={participant} lastMessageTimestamp={conversation.lastMessageTimestamp} />
-              ),
-            }}
-          />
+          <ConversationHeader participant={participant} lastMessageTimestamp={conversation.lastMessageTimestamp} />
           <MessageList conversationId={conversation.id} currentUserId={currentUserId} participant={participant} />
         </View>
       )}

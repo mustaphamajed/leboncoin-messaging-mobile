@@ -1,13 +1,11 @@
-import { Stack } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { ConversationList } from "@/features/conversations";
+import { ConversationList } from '@/features/conversations';
 import { colors } from '@/lib';
 
 export default function ConversationsScreen() {
   return (
     <View style={styles.container}>
-      <Stack.Screen options={{ title: "Messages" }} />
       <View style={styles.header}>
         <Text accessibilityRole="header" style={styles.title}>
           Conversations
@@ -28,10 +26,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 16,
     paddingVertical: 12,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: colors.border,
   },
   title: {
-    fontSize: 16,
-    fontWeight: '600',
+    fontSize: 22,
+    fontWeight: '700',
     color: colors.text,
   },
 });

@@ -82,4 +82,13 @@ describe('ConversationView', () => {
 
     expect(await screen.findByText('Conversation unavailable')).toBeOnTheScreen();
   });
+
+  it('offers a way back to the conversation list', async () => {
+    const { getPathname } = await renderRoute('/conversations/1');
+
+    await fireEvent.press(await screen.findByRole('link', { name: 'Back to conversations' }));
+
+    await waitFor(() => expect(getPathname()).toBe('/'));
+    expect(await screen.findByRole('header', { name: 'Conversations' })).toBeOnTheScreen();
+  });
 });

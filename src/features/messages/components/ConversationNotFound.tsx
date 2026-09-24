@@ -1,4 +1,4 @@
-import { Link, Stack } from 'expo-router';
+import { Link } from 'expo-router';
 import { StyleSheet } from 'react-native';
 
 import { EmptyState } from '@/components';
@@ -6,18 +6,15 @@ import { colors } from '@/lib';
 
 export function ConversationNotFound() {
   return (
-    <>
-      <Stack.Screen options={{ title: 'Conversation not found' }} />
-      <EmptyState
-        title="Conversation not found"
-        description="This conversation does not exist or the link is invalid."
-        action={
-          <Link href="/" dismissTo style={styles.link}>
-            Back to conversations
-          </Link>
-        }
-      />
-    </>
+    <EmptyState
+      title="Conversation not found"
+      description="This conversation does not exist or the link is invalid."
+      action={
+        <Link href="/" dismissTo style={styles.link}>
+          Back to conversations
+        </Link>
+      }
+    />
   );
 }
 

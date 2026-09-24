@@ -1,5 +1,5 @@
-import { Stack } from 'expo-router';
+import { EmptyState } from '@/components';
 
 export default function NewConversationScreen() {
-  return <Stack.Screen options={{ title: 'New conversation' }} />;
+  return <EmptyState title="New conversation" />;
 }
