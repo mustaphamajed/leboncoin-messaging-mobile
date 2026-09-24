@@ -2,12 +2,12 @@ import { Stack } from 'expo-router';
 import { StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-import { ConnectionBanner } from "@/features/connection";
+import { ConnectionBanner } from '@/features/connection';
 import { colors } from '@/lib';
 
 export function RootNavigator() {
   return (
-    <SafeAreaView edges={["top", "bottom"]} style={styles.safeArea}>
+    <SafeAreaView edges={['top', 'bottom']} style={styles.safeArea}>
       <ConnectionBanner />
       <Stack
         screenOptions={{

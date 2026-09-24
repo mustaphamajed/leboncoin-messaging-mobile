@@ -11,7 +11,9 @@ export function RouteErrorBoundary({ retry }: ErrorBoundaryProps) {
       <Text accessibilityRole="header" style={styles.title}>
         Une erreur est survenue
       </Text>
-      <Text style={styles.message}>Une erreur inattendue s’est produite. Réessayer résout généralement le problème.</Text>
+      <Text style={styles.message}>
+        Une erreur inattendue s’est produite. Réessayer résout généralement le problème.
+      </Text>
       <View style={styles.action}>
         <Button label="Réessayer" onPress={retry} />
       </View>

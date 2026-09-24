@@ -14,8 +14,17 @@ module.exports = defineConfig([
         {
           patterns: [
             {
-              group: ['@/services/*', '@/lib/*', '@/components/*', '@/context/*', '@/providers/*', '@/navigation/*', '@/features/*/*'],
-              message: 'Import from the folder index (e.g. "@/services" or "@/features/messages") instead of a deep path.',
+              group: [
+                '@/services/*',
+                '@/lib/*',
+                '@/components/*',
+                '@/context/*',
+                '@/providers/*',
+                '@/navigation/*',
+                '@/features/*/*',
+              ],
+              message:
+                'Import from the folder index (e.g. "@/services" or "@/features/messages") instead of a deep path.',
             },
           ],
         },

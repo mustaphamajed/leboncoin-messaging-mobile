@@ -1,0 +1,5 @@
+dist
+coverage
+package-lock.json
+.expo
+expo-env.d.ts

@@ -32,7 +32,11 @@ describe('NewConversation', () => {
   it('lists the other users alphabetically and flags existing conversations', async () => {
     await renderRoute('/conversations/new');
 
-    expect(await findUserOptions()).toEqual(['Elodie Ouvrir la conversation', 'Jeremie Ouvrir la conversation', 'Patrick']);
+    expect(await findUserOptions()).toEqual([
+      'Elodie Ouvrir la conversation',
+      'Jeremie Ouvrir la conversation',
+      'Patrick',
+    ]);
   });
 
   it('filters users by nickname', async () => {
@@ -79,7 +83,12 @@ describe('NewConversation', () => {
 
     expect(await screen.findByRole('header', { name: 'Patrick' })).toBeOnTheScreen();
     await waitFor(() => expect(getPathname()).toBe('/conversations/4'));
-    expect(body).toMatchObject({ senderId: 1, senderNickname: 'Thibaut', recipientId: 3, recipientNickname: 'Patrick' });
+    expect(body).toMatchObject({
+      senderId: 1,
+      senderNickname: 'Thibaut',
+      recipientId: 3,
+      recipientNickname: 'Patrick',
+    });
 
     await goBackToList();
 

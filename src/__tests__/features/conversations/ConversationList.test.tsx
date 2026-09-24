@@ -51,7 +51,9 @@ describe('ConversationList', () => {
   });
 
   it('shows an error with a retry button when the server fails', async () => {
-    server.use(http.get(apiUrl('/conversations/:userId'), () => new HttpResponse(null, { status: 503 }), { once: true }));
+    server.use(
+      http.get(apiUrl('/conversations/:userId'), () => new HttpResponse(null, { status: 503 }), { once: true }),
+    );
     await renderRoute('/');
 
     // The alert container is not an accessibility element (so its button stays focusable), so it is found by its title.
