@@ -1,4 +1,5 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Link } from 'expo-router';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { ConversationList } from '@/features/conversations';
 import { colors } from '@/lib';
@@ -10,6 +11,15 @@ export default function ConversationsScreen() {
         <Text accessibilityRole="header" style={styles.title}>
           Conversations
         </Text>
+        <Link href="/conversations/new" asChild>
+          <Pressable accessibilityRole="link" accessibilityLabel="New conversation" hitSlop={8}>
+            {({ pressed }) => (
+              <View style={[styles.newConversation, pressed && styles.newConversationPressed]}>
+                <Text style={styles.newConversationText}>+ New conversation</Text>
+              </View>
+            )}
+          </Pressable>
+        </Link>
       </View>
       <ConversationList />
     </View>
@@ -33,5 +43,18 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: '700',
     color: colors.text,
+  },
+  newConversation: {
+    borderRadius: 9999,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+  },
+  newConversationPressed: {
+    backgroundColor: colors.brandLight,
+  },
+  newConversationText: {
+    fontSize: 14,
+    fontWeight: '500',
+    color: colors.brand,
   },
 });

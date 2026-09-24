@@ -48,7 +48,7 @@ export async function renderRoute(path: string, { userId = 1 }: RenderRouteOptio
 
   // Load the route components synchronously, as renderRouter does.
   process.env.EXPO_ROUTER_IMPORT_MODE = 'sync';
-  await render(<ExpoRoot context={context} location={path} />);
+  const { unmount } = await render(<ExpoRoot context={context} location={path} />);
 
-  return { queryClient, getPathname: () => location.pathname };
+  return { queryClient, unmount, getPathname: () => location.pathname };
 }

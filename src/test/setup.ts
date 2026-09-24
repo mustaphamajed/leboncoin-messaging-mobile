@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { onlineManager } from '@tanstack/react-query';
 
 import { resetDb } from './msw/db';
@@ -7,9 +8,10 @@ beforeAll(() => {
   server.listen({ onUnhandledRequest: 'error' });
 });
 
-afterEach(() => {
+afterEach(async () => {
   server.resetHandlers();
   resetDb();
+  await AsyncStorage.clear();
   onlineManager.setOnline(true);
 });
 

@@ -1,5 +1,5 @@
-import { EmptyState } from '@/components';
+import { NewConversation } from '@/features/newConversation';
 
 export default function NewConversationScreen() {
-  return <EmptyState title="New conversation" />;
+  return <NewConversation />;
 }

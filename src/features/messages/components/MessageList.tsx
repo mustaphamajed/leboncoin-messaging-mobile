@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import { FlatList, StyleSheet, View } from 'react-native';
 
 import { EmptyState, ErrorState, Spinner } from '@/components';
@@ -10,6 +9,8 @@ import { buildTimeline, type TimelineItem } from '../timeline';
 import { DayLabel } from './DayLabel';
 import { MessageBubble } from './MessageBubble';
 
+const NEAR_LATEST_THRESHOLD = 80;
+
 interface MessageListProps {
   conversationId: number;
   currentUserId: User['id'];
@@ -19,11 +20,10 @@ interface MessageListProps {
 export function MessageList({ conversationId, currentUserId, participant }: MessageListProps) {
   const { data: messages, error, isPending, isError, isSuccess, refetch, isFetching } = useMessages(conversationId);
   const { outgoingMessages, retry, discard } = useOutgoingMessages(conversationId);
-  const timeline = useMemo(
-    () => buildTimeline(messages ?? [], outgoingMessages, currentUserId),
-    [messages, outgoingMessages, currentUserId],
-  );
-  const { listRef, onScroll, onContentSizeChange } = useStickToBottom<TimelineItem>(outgoingMessages.length);
+  const timeline = buildTimeline(messages ?? [], outgoingMessages, currentUserId);
+  // Newest first, for the inverted list.
+  const latestFirst = [...timeline].reverse();
+  const listRef = useStickToBottom<TimelineItem>(outgoingMessages.length);
 
   return (
     <>
@@ -47,8 +47,12 @@ export function MessageList({ conversationId, currentUserId, participant }: Mess
         <FlatList
           ref={listRef}
           accessibilityLabel={`Messages with ${participant.nickname}`}
-          data={timeline}
+          // Inverted so the list opens on the latest message and new messages appear at the bottom.
+          inverted
+          data={latestFirst}
           keyExtractor={(item) => item.key}
+          // Keeps the reading position when messages arrive, unless the user is already near the latest one.
+          maintainVisibleContentPosition={{ minIndexForVisible: 0, autoscrollToTopThreshold: NEAR_LATEST_THRESHOLD }}
           renderItem={({ item: { outgoing, ...item } }) => (
             <View>
               {item.startsNewDay && <DayLabel timestamp={item.timestamp} />}
@@ -65,9 +69,6 @@ export function MessageList({ conversationId, currentUserId, participant }: Mess
             </View>
           )}
           contentContainerStyle={styles.content}
-          onScroll={onScroll}
-          scrollEventThrottle={16}
-          onContentSizeChange={onContentSizeChange}
         />
       )}
     </>

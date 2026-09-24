@@ -23,9 +23,10 @@ describe('ConversationView', () => {
     await findMessageList();
     const bubbles = screen.getAllByLabelText(/^(You|Jeremie): /);
 
+    // The list is inverted, so the latest message comes first in the rendered tree.
     expect(bubbles.map((bubble) => bubble.props.accessibilityLabel)).toEqual([
-      'You: Bonjour, 06:04',
       'Jeremie: Salut !, 09:04',
+      'You: Bonjour, 06:04',
     ]);
     expect(screen.getByText('mercredi 7 juillet 2021')).toBeOnTheScreen();
   });

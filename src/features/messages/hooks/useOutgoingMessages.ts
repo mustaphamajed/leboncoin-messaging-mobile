@@ -1,5 +1,4 @@
 import { useMutationState, useQueryClient, type Mutation } from '@tanstack/react-query';
-import { useCallback } from 'react';
 
 import type { Message, SendMessageInput } from '@/services';
 import { messageKeys } from '../queryKeys';
@@ -39,22 +38,16 @@ export function useOutgoingMessages(conversationId: number) {
     select: toOutgoingMessage,
   });
 
-  const discard = useCallback(
-    (mutationId: number) => {
-      const mutationCache = queryClient.getMutationCache();
-      const mutation = mutationCache.getAll().find((m) => m.mutationId === mutationId);
-      if (mutation) mutationCache.remove(mutation);
-    },
-    [queryClient],
-  );
+  const discard = (mutationId: number) => {
+    const mutationCache = queryClient.getMutationCache();
+    const mutation = mutationCache.getAll().find((m) => m.mutationId === mutationId);
+    if (mutation) mutationCache.remove(mutation);
+  };
 
-  const retry = useCallback(
-    (message: OutgoingMessage) => {
-      discard(message.mutationId);
-      send(message.input);
-    },
-    [discard, send],
-  );
+  const retry = (message: OutgoingMessage) => {
+    discard(message.mutationId);
+    send(message.input);
+  };
 
   return { outgoingMessages, retry, discard };
 }
