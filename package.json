@@ -58,6 +58,9 @@
     },
     "moduleNameMapper": {
       "^msw/node$": "<rootDir>/node_modules/msw/lib/node/index.js"
-    }
+    },
+    "setupFilesAfterEnv": [
+      "<rootDir>/src/test/setup.ts"
+    ]
   }
 }

@@ -1,46 +1,41 @@
 import { isCancel } from 'axios';
 import { delay, http, HttpResponse } from 'msw';
-import { setupServer } from 'msw/node';
 import { z } from 'zod';
 
-import { API_URL, ApiError, httpClient } from '@/services';
-
-const server = setupServer();
-beforeAll(() => server.listen({ onUnhandledRequest: 'error' }));
-afterEach(() => server.resetHandlers());
-afterAll(() => server.close());
+import { ApiError, httpClient } from '@/services';
+import { server } from '@/test/msw/server';
+import { apiUrl } from '@/test/msw/utils';
 
 const schema = z.object({ id: z.number() });
-const url = (path: string) => `${API_URL}${path}`;
 
 describe('httpClient', () => {
   it('returns parsed data on success', async () => {
-    server.use(http.get(url('/ok'), () => HttpResponse.json({ id: 1 })));
+    server.use(http.get(apiUrl('/ok'), () => HttpResponse.json({ id: 1 })));
     await expect(httpClient.get('/ok', schema)).resolves.toEqual({ id: 1 });
   });
 
   it('throws a non-retryable http error on 4xx', async () => {
-    server.use(http.get(url('/x'), () => new HttpResponse(null, { status: 404 })));
+    server.use(http.get(apiUrl('/x'), () => new HttpResponse(null, { status: 404 })));
     const error = await httpClient.get('/x', schema).catch((e) => e);
     expect(error).toBeInstanceOf(ApiError);
     expect(error).toMatchObject({ kind: 'http', status: 404, isRetryable: false });
   });
 
   it('throws a retryable http error on 5xx', async () => {
-    server.use(http.get(url('/x'), () => new HttpResponse(null, { status: 503 })));
+    server.use(http.get(apiUrl('/x'), () => new HttpResponse(null, { status: 503 })));
     const error = await httpClient.get('/x', schema).catch((e) => e);
     expect(error).toMatchObject({ kind: 'http', status: 503, isRetryable: true });
   });
 
   it('throws a retryable network error when the server is unreachable', async () => {
-    server.use(http.get(url('/x'), () => HttpResponse.error()));
+    server.use(http.get(apiUrl('/x'), () => HttpResponse.error()));
     const error = await httpClient.get('/x', schema).catch((e) => e);
     expect(error).toMatchObject({ kind: 'network', isRetryable: true });
   });
 
   it('throws a retryable timeout error when the server is too slow', async () => {
     server.use(
-      http.get(url('/x'), async () => {
+      http.get(apiUrl('/x'), async () => {
         await delay(200);
         return HttpResponse.json({ id: 1 });
       }),
@@ -51,14 +46,14 @@ describe('httpClient', () => {
 
   it('throws an invalid-response error on malformed JSON', async () => {
     server.use(
-      http.get(url('/x'), () => new HttpResponse('{not json', { headers: { 'Content-Type': 'application/json' } })),
+      http.get(apiUrl('/x'), () => new HttpResponse('{not json', { headers: { 'Content-Type': 'application/json' } })),
     );
     const error = await httpClient.get('/x', schema).catch((e) => e);
     expect(error).toMatchObject({ kind: 'invalid-response', isRetryable: false });
   });
 
   it('throws an invalid-response error when the data does not match the schema', async () => {
-    server.use(http.get(url('/x'), () => HttpResponse.json({ id: 'not-a-number' })));
+    server.use(http.get(apiUrl('/x'), () => HttpResponse.json({ id: 'not-a-number' })));
     const error = await httpClient.get('/x', schema).catch((e) => e);
     expect(error).toMatchObject({ kind: 'invalid-response', status: 200 });
     expect(error.cause).toBeInstanceOf(z.ZodError);
@@ -66,7 +61,7 @@ describe('httpClient', () => {
 
   it('rethrows cancellations untouched instead of wrapping them', async () => {
     server.use(
-      http.get(url('/x'), async () => {
+      http.get(apiUrl('/x'), async () => {
         await delay(200);
         return HttpResponse.json({ id: 1 });
       }),
@@ -82,7 +77,7 @@ describe('httpClient', () => {
   it('sends the body with post', async () => {
     let body: unknown;
     server.use(
-      http.post(url('/items'), async ({ request }) => {
+      http.post(apiUrl('/items'), async ({ request }) => {
         body = await request.json();
         return HttpResponse.json({ id: 2 }, { status: 201 });
       }),
@@ -92,7 +87,7 @@ describe('httpClient', () => {
   });
 
   it('sends a DELETE request and accepts an empty response', async () => {
-    server.use(http.delete(url('/items/1'), () => new HttpResponse(null, { status: 204 })));
+    server.use(http.delete(apiUrl('/items/1'), () => new HttpResponse(null, { status: 204 })));
     await expect(httpClient.delete('/items/1', z.undefined())).resolves.toBeUndefined();
   });
 });

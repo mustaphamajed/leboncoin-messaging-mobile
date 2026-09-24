@@ -70,7 +70,8 @@ src/
 ├── components/     # Generic UI: avatar, spinner, empty and error states, error boundary
 ├── context/        # Logged user
 ├── lib/            # Pure helpers: theme, dates, error messages, query client
-└── __tests__/      # Tests, setup, fixtures and MSW handlers
+├── test/           # Test setup, fixtures and MSW mock API
+└── __tests__/      # Test suites
 ```
 
 Dependencies only go one way:
