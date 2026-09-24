@@ -1,6 +1,7 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View, type ViewStyle } from 'react-native';
 
 import { colors, formatTime } from '@/lib';
+import type { DeliveryStatus } from '../types';
 
 interface MessageBubbleProps {
   body: string;
@@ -8,22 +9,59 @@ interface MessageBubbleProps {
   authorName: string;
   isOwn: boolean;
   showAuthor: boolean;
+  status?: DeliveryStatus;
+  onRetry?: () => void;
+  onDiscard?: () => void;
 }
 
-export function MessageBubble({ body, timestamp, authorName, isOwn, showAuthor }: MessageBubbleProps) {
+const statusConfig: Record<DeliveryStatus, { bubbleStyle?: ViewStyle; label?: string }> = {
+  sent: {},
+  sending: { bubbleStyle: { opacity: 0.7 }, label: 'Sending…' },
+  waiting: { bubbleStyle: { opacity: 0.7 }, label: 'Waiting for connection…' },
+  failed: { bubbleStyle: { borderWidth: 2, borderColor: colors.danger } },
+};
+
+export function MessageBubble({
+  body,
+  timestamp,
+  authorName,
+  isOwn,
+  showAuthor,
+  status = 'sent',
+  onRetry,
+  onDiscard,
+}: MessageBubbleProps) {
+  const { bubbleStyle, label } = statusConfig[status];
   const time = formatTime(timestamp);
 
   return (
-    <View
-      accessible
-      accessibilityLabel={`${isOwn ? 'You' : authorName}: ${body}, ${time}`}
-      style={[styles.container, isOwn ? styles.containerOwn : styles.containerOther]}
-    >
-      {showAuthor && <Text style={styles.author}>{authorName}</Text>}
-      <View style={[styles.bubble, isOwn ? styles.bubbleOwn : styles.bubbleOther]}>
-        <Text style={isOwn ? styles.bodyOwn : styles.bodyOther}>{body}</Text>
+    <View style={[styles.container, isOwn ? styles.containerOwn : styles.containerOther]}>
+      {/* The retry and delete buttons stay outside the accessible group so screen readers can reach them. */}
+      <View
+        accessible
+        accessibilityLabel={`${isOwn ? 'You' : authorName}: ${body}${status === 'sent' ? `, ${time}` : ''}`}
+        style={isOwn ? styles.containerOwn : styles.containerOther}
+      >
+        {showAuthor && <Text style={styles.author}>{authorName}</Text>}
+        <View style={[styles.bubble, isOwn ? styles.bubbleOwn : styles.bubbleOther, bubbleStyle]}>
+          <Text style={isOwn ? styles.bodyOwn : styles.bodyOther}>{body}</Text>
+        </View>
+        {status === 'sent' && <Text style={styles.meta}>{time}</Text>}
       </View>
-      <Text style={styles.time}>{time}</Text>
+
+      {label && <Text style={styles.meta}>{label}</Text>}
+
+      {status === 'failed' && (
+        <View style={styles.failed}>
+          <Text style={styles.failedText}>Not sent.</Text>
+          <Pressable accessibilityRole="button" onPress={onRetry} hitSlop={8}>
+            <Text style={styles.action}>Retry</Text>
+          </Pressable>
+          <Pressable accessibilityRole="button" onPress={onDiscard} hitSlop={8}>
+            <Text style={styles.action}>Delete</Text>
+          </Pressable>
+        </View>
+      )}
     </View>
   );
 }
@@ -67,10 +105,25 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: colors.text,
   },
-  time: {
+  meta: {
     marginTop: 4,
     paddingHorizontal: 4,
     fontSize: 12,
     color: colors.textSubtle,
+  },
+  failed: {
+    flexDirection: 'row',
+    gap: 12,
+    marginTop: 4,
+    paddingHorizontal: 4,
+  },
+  failedText: {
+    fontSize: 12,
+    color: colors.danger,
+  },
+  action: {
+    fontSize: 12,
+    fontWeight: '500',
+    color: colors.danger,
   },
 });

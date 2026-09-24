@@ -1,4 +1,4 @@
-import { QueryClient } from '@tanstack/react-query';
+import { QueryClient, type QueryKey } from '@tanstack/react-query';
 
 import { isApiError } from '@/services';
 
@@ -19,3 +19,14 @@ export const createQueryClient = () =>
       },
     },
   });
+
+export async function appendToCachedList<TItem extends { id: number }>(
+  queryClient: QueryClient,
+  queryKey: QueryKey,
+  item: TItem,
+) {
+  await queryClient.cancelQueries({ queryKey });
+  queryClient.setQueryData<TItem[]>(queryKey, (items) =>
+    items && !items.some(({ id }) => id === item.id) ? [...items, item] : items,
+  );
+}
