@@ -16,18 +16,19 @@ export function ConversationItem({ conversation, currentUserId }: ConversationIt
 
   return (
     <Link href={`/conversations/${conversation.id}`} asChild>
-      <Pressable
-        accessibilityRole="link"
-        accessibilityLabel={`${participant.nickname}, ${date}`}
-        style={({ pressed }) => [styles.item, pressed && styles.pressed]}
-      >
-        <Avatar id={participant.id} name={participant.nickname} />
-        <View style={styles.content}>
-          <Text numberOfLines={1} style={styles.nickname}>
-            {participant.nickname}
-          </Text>
-          <Text style={styles.date}>{date}</Text>
-        </View>
+      {/* Link asChild drops a function style on its child, so the row layout lives on an inner View. */}
+      <Pressable accessibilityRole="link" accessibilityLabel={`${participant.nickname}, ${date}`}>
+        {({ pressed }) => (
+          <View style={[styles.item, pressed && styles.pressed]}>
+            <Avatar id={participant.id} name={participant.nickname} />
+            <View style={styles.content}>
+              <Text numberOfLines={1} style={styles.nickname}>
+                {participant.nickname}
+              </Text>
+              <Text style={styles.date}>{date}</Text>
+            </View>
+          </View>
+        )}
       </Pressable>
     </Link>
   );

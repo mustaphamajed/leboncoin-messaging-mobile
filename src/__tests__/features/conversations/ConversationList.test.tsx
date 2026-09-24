@@ -25,6 +25,7 @@ describe('ConversationList', () => {
     await fireEvent.press(await screen.findByRole('link', { name: /Jeremie/ }));
 
     await waitFor(() => expect(getPathname()).toBe('/conversations/1'));
+    expect(await screen.findByLabelText('Messages with Jeremie')).toBeOnTheScreen();
   });
 
   it('shows the date of the last message', async () => {

@@ -9,9 +9,16 @@ import { ConversationItem } from './ConversationItem';
 
 export function ConversationList() {
   const currentUserId = useCurrentUserId();
-  const { data: conversations = [], error, isPending, isError, isSuccess, refetch, isFetching, isRefetching } =
-    useConversations();
-
+  const {
+    data: conversations = [],
+    error,
+    isPending,
+    isError,
+    isSuccess,
+    refetch,
+    isFetching,
+    isRefetching,
+  } = useConversations();
   return (
     <>
       {isPending && <Spinner label="Loading conversations" />}

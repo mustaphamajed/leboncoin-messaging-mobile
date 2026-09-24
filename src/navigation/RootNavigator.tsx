@@ -10,6 +10,11 @@ export function RootNavigator() {
         headerTitleStyle: { color: colors.text },
         contentStyle: { backgroundColor: colors.white },
       }}
-    />
+    >
+      <Stack.Screen
+        name="conversations/[conversationId]"
+        options={{ title: "Conversation" }}
+      />
+    </Stack>
   );
 }

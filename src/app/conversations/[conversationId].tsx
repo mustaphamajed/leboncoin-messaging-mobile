@@ -1,14 +1,15 @@
-import { Stack, useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 
-import { useCurrentUserId } from '@/context';
-import { useConversation } from '@/features/conversations';
-import { getOtherParticipant } from '@/lib';
+import { ConversationNotFound, ConversationView } from '@/features/messages';
+import { idSchema } from '@/services';
 
 export default function ConversationScreen() {
   const { conversationId } = useLocalSearchParams<{ conversationId: string }>();
-  const currentUserId = useCurrentUserId();
-  const { data: conversation } = useConversation(Number(conversationId));
-  const title = conversation ? getOtherParticipant(conversation, currentUserId).nickname : 'Conversation';
+  const parsedId = idSchema.safeParse(Number(conversationId));
 
-  return <Stack.Screen options={{ title }} />;
+  return parsedId.success ? (
+    <ConversationView key={parsedId.data} conversationId={parsedId.data} />
+  ) : (
+    <ConversationNotFound />
+  );
 }

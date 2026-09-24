@@ -7,4 +7,6 @@ export function getOtherParticipant(conversation: Conversation, currentUserId: U
 }
 
 export const sortByLatestMessage = (conversations: Conversation[]): Conversation[] =>
-  conversations.toSorted((a, b) => b.lastMessageTimestamp - a.lastMessageTimestamp);
+  [...conversations].sort(
+    (a, b) => b.lastMessageTimestamp - a.lastMessageTimestamp,
+  );
