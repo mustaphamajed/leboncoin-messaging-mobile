@@ -1,4 +1,4 @@
-import { fireEvent, screen } from 'expo-router/testing-library';
+import { fireEvent, screen, waitFor } from '@testing-library/react-native';
 
 import { renderRoute } from '@/test/renderRoute';
 
@@ -16,6 +16,6 @@ describe('routes', () => {
     await fireEvent.press(await screen.findByText('Go to messages'));
 
     expect(await screen.findByRole('header', { name: 'Conversations' })).toBeOnTheScreen();
-    expect(getPathname()).toBe('/');
+    await waitFor(() => expect(getPathname()).toBe('/'));
   });
 });

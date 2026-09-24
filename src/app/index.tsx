@@ -1,17 +1,19 @@
 import { Stack } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
 
+import { ConversationList } from "@/features/conversations";
 import { colors } from '@/lib';
 
 export default function ConversationsScreen() {
   return (
     <View style={styles.container}>
-      <Stack.Screen options={{ title: 'Messages' }} />
+      <Stack.Screen options={{ title: "Messages" }} />
       <View style={styles.header}>
         <Text accessibilityRole="header" style={styles.title}>
           Conversations
         </Text>
       </View>
+      <ConversationList />
     </View>
   );
 }

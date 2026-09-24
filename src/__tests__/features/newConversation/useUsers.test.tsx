@@ -9,7 +9,7 @@ import { server } from '@/test/msw/server';
 import { apiUrl } from '@/test/msw/utils';
 
 function wrapper({ children }: { children: ReactNode }) {
-  const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
+  const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false, gcTime: Infinity } } });
   return <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>;
 }
 
