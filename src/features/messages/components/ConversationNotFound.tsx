@@ -1,8 +1,4 @@
-import { Link } from 'expo-router';
-import { StyleSheet } from 'react-native';
-
-import { EmptyState } from '@/components';
-import { colors } from '@/lib';
+import { EmptyState, TextLink } from '@/components';
 
 export function ConversationNotFound() {
   return (
@@ -10,17 +6,10 @@ export function ConversationNotFound() {
       title="Conversation introuvable"
       description="Cette conversation n’existe pas ou le lien est invalide."
       action={
-        <Link href="/" dismissTo style={styles.link}>
-          Back to conversations
-        </Link>
+        <TextLink href="/" dismissTo>
+          Retour aux conversations
+        </TextLink>
       }
     />
   );
 }
-
-const styles = StyleSheet.create({
-  link: {
-    fontWeight: '500',
-    color: colors.brand,
-  },
-});

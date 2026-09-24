@@ -1,8 +1,4 @@
-import { Link } from 'expo-router';
-import { StyleSheet } from 'react-native';
-
-import { EmptyState } from '@/components';
-import { colors } from '@/lib';
+import { EmptyState, TextLink } from '@/components';
 
 export default function NotFoundScreen() {
   return (
@@ -10,17 +6,10 @@ export default function NotFoundScreen() {
       title="Page introuvable"
       description="La page que vous cherchez n’existe pas."
       action={
-        <Link href="/" dismissTo style={styles.link}>
+        <TextLink href="/" dismissTo>
           Aller aux messages
-        </Link>
+        </TextLink>
       }
     />
   );
 }
-
-const styles = StyleSheet.create({
-  link: {
-    fontWeight: '500',
-    color: colors.brand,
-  },
-});

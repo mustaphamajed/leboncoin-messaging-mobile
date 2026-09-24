@@ -1,7 +1,6 @@
-import { Link } from 'expo-router';
 import { FlatList, RefreshControl, StyleSheet, View } from 'react-native';
 
-import { EmptyState, ErrorState, Spinner } from '@/components';
+import { EmptyState, ErrorState, Spinner, TextLink } from '@/components';
 import { useCurrentUserId } from '@/context';
 import { colors } from '@/lib';
 import { useConversations } from '../hooks/useConversations';
@@ -37,9 +36,9 @@ export function ConversationList() {
           title="Aucune conversation pour le moment"
           description="Vos conversations avec les autres utilisateurs apparaîtront ici."
           action={
-            <Link href="/conversations/new" style={styles.link}>
+            <TextLink href="/conversations/new">
               Démarrer une conversation
-            </Link>
+            </TextLink>
           }
         />
       )}
@@ -64,10 +63,6 @@ function Separator() {
 }
 
 const styles = StyleSheet.create({
-  link: {
-    fontWeight: '500',
-    color: colors.brand,
-  },
   separator: {
     height: StyleSheet.hairlineWidth,
     backgroundColor: colors.divider,

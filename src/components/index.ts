@@ -6,3 +6,4 @@ export * from './ErrorState';
 export * from './FullPageSpinner';
 export * from './RouteErrorBoundary';
 export * from './Spinner';
+export * from './TextLink';
