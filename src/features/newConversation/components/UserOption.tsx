@@ -26,8 +26,8 @@ export function UserOption({ user, hasConversation, isStarting, disabled, onSele
           <Text numberOfLines={1} style={styles.nickname}>
             {user.nickname}
           </Text>
-          {isStarting && <Text style={styles.hint}>Starting…</Text>}
-          {!isStarting && hasConversation && <Text style={styles.hint}>Open conversation</Text>}
+          {isStarting && <Text style={styles.hint}>Création…</Text>}
+          {!isStarting && hasConversation && <Text style={styles.hint}>Ouvrir la conversation</Text>}
         </View>
       )}
     </Pressable>

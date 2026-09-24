@@ -7,8 +7,8 @@ import { colors } from '@/lib';
 export function ConversationNotFound() {
   return (
     <EmptyState
-      title="Conversation not found"
-      description="This conversation does not exist or the link is invalid."
+      title="Conversation introuvable"
+      description="Cette conversation n’existe pas ou le lien est invalide."
       action={
         <Link href="/" dismissTo style={styles.link}>
           Back to conversations

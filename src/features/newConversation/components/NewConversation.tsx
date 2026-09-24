@@ -63,10 +63,10 @@ export function NewConversation() {
 
       <View style={styles.searchContainer}>
         <TextInput
-          accessibilityLabel="Search users"
+          accessibilityLabel="Rechercher un utilisateur"
           value={search}
           onChangeText={setSearch}
-          placeholder="Search users"
+          placeholder="Rechercher un utilisateur"
           placeholderTextColor={colors.textSubtle}
           autoCorrect={false}
           autoCapitalize="none"
@@ -78,15 +78,15 @@ export function NewConversation() {
 
       {createConversation.isError && (
         <Text accessibilityRole="alert" style={styles.alert}>
-          Could not start the conversation. {getErrorMessage(createConversation.error)}
+          Impossible de démarrer la conversation. {getErrorMessage(createConversation.error)}
         </Text>
       )}
 
-      {isLoading && <Spinner label="Loading users" />}
+      {isLoading && <Spinner label="Chargement des utilisateurs" />}
 
       {hasLoadError && (
         <ErrorState
-          title="Users unavailable"
+          title="Utilisateurs indisponibles"
           error={users.error ?? conversations.error}
           onRetry={() => {
             void users.refetch();
@@ -97,11 +97,11 @@ export function NewConversation() {
       )}
 
       {isReady && !currentUser && (
-        <EmptyState title="Profile unavailable" description="We could not find your profile. Please try again later." />
+        <EmptyState title="Profil indisponible" description="Nous n’avons pas trouvé votre profil. Veuillez réessayer plus tard." />
       )}
 
       {isReady && currentUser && candidates.length === 0 && (
-        <EmptyState title="No user found" description={`No user matches “${search.trim()}”.`} />
+        <EmptyState title="Aucun utilisateur trouvé" description={`Aucun utilisateur ne correspond à « ${search.trim()} ».`} />
       )}
 
       {isReady && currentUser && candidates.length > 0 && (

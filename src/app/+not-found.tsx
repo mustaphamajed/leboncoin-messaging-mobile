@@ -7,11 +7,11 @@ import { colors } from '@/lib';
 export default function NotFoundScreen() {
   return (
     <EmptyState
-      title="Page not found"
-      description="The page you are looking for does not exist."
+      title="Page introuvable"
+      description="La page que vous cherchez n’existe pas."
       action={
         <Link href="/" dismissTo style={styles.link}>
-          Go to messages
+          Aller aux messages
         </Link>
       }
     />

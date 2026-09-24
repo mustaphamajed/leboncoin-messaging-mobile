@@ -7,7 +7,7 @@ interface SpinnerProps {
   style?: StyleProp<ViewStyle>;
 }
 
-export function Spinner({ label = 'Loading', style }: SpinnerProps) {
+export function Spinner({ label = 'Chargement', style }: SpinnerProps) {
   return (
     <View accessible accessibilityRole="progressbar" accessibilityLabel={label} style={[styles.container, style]}>
       <ActivityIndicator color={colors.brand} />

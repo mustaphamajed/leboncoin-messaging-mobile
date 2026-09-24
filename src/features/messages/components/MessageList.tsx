@@ -27,11 +27,11 @@ export function MessageList({ conversationId, currentUserId, participant }: Mess
 
   return (
     <>
-      {isPending && <Spinner label="Loading messages" style={styles.fill} />}
+      {isPending && <Spinner label="Chargement des messages" style={styles.fill} />}
 
       {isError && (
         <ErrorState
-          title="Messages unavailable"
+          title="Messages indisponibles"
           error={error}
           onRetry={() => void refetch()}
           isRetrying={isFetching}
@@ -40,13 +40,13 @@ export function MessageList({ conversationId, currentUserId, participant }: Mess
       )}
 
       {isSuccess && timeline.length === 0 && (
-        <EmptyState title="No messages yet" description={`Say hello to ${participant.nickname}!`} />
+        <EmptyState title="Aucun message pour le moment" description={`Dites bonjour à ${participant.nickname} !`} />
       )}
 
       {timeline.length > 0 && (
         <FlatList
           ref={listRef}
-          accessibilityLabel={`Messages with ${participant.nickname}`}
+          accessibilityLabel={`Messages avec ${participant.nickname}`}
           // Inverted so the list opens on the latest message and new messages appear at the bottom.
           inverted
           data={latestFirst}
@@ -61,7 +61,7 @@ export function MessageList({ conversationId, currentUserId, participant }: Mess
                 timestamp={item.timestamp}
                 status={item.status}
                 isOwn={item.isOwn}
-                authorName={item.isOwn ? 'You' : participant.nickname}
+                authorName={item.isOwn ? 'Vous' : participant.nickname}
                 showAuthor={item.showAuthor}
                 onRetry={outgoing && (() => retry(outgoing))}
                 onDiscard={outgoing && (() => discard(outgoing.mutationId))}

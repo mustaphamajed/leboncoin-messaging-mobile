@@ -32,18 +32,18 @@ export function MessageComposer({ conversationId, recipientName }: MessageCompos
     <View style={styles.container}>
       <View style={styles.field}>
         <TextInput
-          accessibilityLabel={`Message to ${recipientName}`}
+          accessibilityLabel={`Message à ${recipientName}`}
           value={body}
           onChangeText={setBody}
           multiline
           maxLength={MESSAGE_MAX_LENGTH}
-          placeholder="Write a message"
+          placeholder="Écrire un message"
           placeholderTextColor={colors.textSubtle}
           style={styles.input}
         />
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel="Send message"
+          accessibilityLabel="Envoyer le message"
           accessibilityState={{ disabled: !trimmedBody }}
           disabled={!trimmedBody}
           onPress={handleSend}
@@ -57,7 +57,7 @@ export function MessageComposer({ conversationId, recipientName }: MessageCompos
       </View>
       {showCounter && (
         <Text accessibilityLiveRegion="polite" style={styles.counter}>
-          {remaining} characters left
+          {remaining} caractères restants
         </Text>
       )}
     </View>

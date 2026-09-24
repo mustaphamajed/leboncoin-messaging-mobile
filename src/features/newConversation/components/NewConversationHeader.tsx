@@ -7,7 +7,7 @@ export function NewConversationHeader() {
   return (
     <View style={styles.header}>
       <Link href="/" dismissTo asChild>
-        <Pressable accessibilityRole="link" accessibilityLabel="Back to conversations" hitSlop={8}>
+        <Pressable accessibilityRole="link" accessibilityLabel="Retour aux conversations" hitSlop={8}>
           {({ pressed }) => (
             <View style={[styles.back, pressed && styles.backPressed]}>
               <Text style={styles.backIcon}>‹</Text>
@@ -16,7 +16,7 @@ export function NewConversationHeader() {
         </Pressable>
       </Link>
       <Text accessibilityRole="header" style={styles.title}>
-        New conversation
+        Nouvelle conversation
       </Text>
     </View>
   );

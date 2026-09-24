@@ -12,10 +12,10 @@ export default function ConversationsScreen() {
           Conversations
         </Text>
         <Link href="/conversations/new" asChild>
-          <Pressable accessibilityRole="link" accessibilityLabel="New conversation" hitSlop={8}>
+          <Pressable accessibilityRole="link" accessibilityLabel="Nouvelle conversation" hitSlop={8}>
             {({ pressed }) => (
               <View style={[styles.newConversation, pressed && styles.newConversationPressed]}>
-                <Text style={styles.newConversationText}>+ New conversation</Text>
+                <Text style={styles.newConversationText}>+ Nouvelle conversation</Text>
               </View>
             )}
           </Pressable>

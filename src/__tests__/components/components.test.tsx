@@ -34,15 +34,15 @@ describe('ErrorState', () => {
     const onRetry = jest.fn();
     await render(<ErrorState title="Oops" error={new ApiError('x', { kind: 'network' })} onRetry={onRetry} />);
 
-    expect(screen.getByText(/could not reach our servers/)).toBeOnTheScreen();
-    await fireEvent.press(screen.getByRole('button', { name: 'Try again' }));
+    expect(screen.getByText(/Impossible de joindre nos serveurs/)).toBeOnTheScreen();
+    await fireEvent.press(screen.getByRole('button', { name: 'Réessayer' }));
     expect(onRetry).toHaveBeenCalledTimes(1);
   });
 
   it('disables the button while retrying', async () => {
     await render(<ErrorState title="Oops" error={new Error('x')} onRetry={jest.fn()} isRetrying />);
 
-    expect(screen.getByRole('button', { name: 'Retrying…' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Nouvelle tentative…' })).toBeDisabled();
   });
 });
 
@@ -59,7 +59,7 @@ describe('RouteErrorBoundary', () => {
     const retry = jest.fn(async () => {});
     await render(<RouteErrorBoundary error={new Error('boom')} retry={retry} />);
 
-    await fireEvent.press(screen.getByRole('button', { name: 'Try again' }));
+    await fireEvent.press(screen.getByRole('button', { name: 'Réessayer' }));
     expect(retry).toHaveBeenCalledTimes(1);
   });
 });

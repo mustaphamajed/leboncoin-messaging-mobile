@@ -18,7 +18,7 @@ export function ErrorState({ title, error, onRetry, isRetrying = false, style }:
       <Text style={styles.message}>{getErrorMessage(error)}</Text>
       {onRetry && (
         <View style={styles.action}>
-          <Button label={isRetrying ? 'Retrying…' : 'Try again'} onPress={onRetry} disabled={isRetrying} />
+          <Button label={isRetrying ? 'Nouvelle tentative…' : 'Réessayer'} onPress={onRetry} disabled={isRetrying} />
         </View>
       )}
     </View>

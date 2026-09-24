@@ -16,8 +16,8 @@ interface MessageBubbleProps {
 
 const statusConfig: Record<DeliveryStatus, { bubbleStyle?: ViewStyle; label?: string }> = {
   sent: {},
-  sending: { bubbleStyle: { opacity: 0.7 }, label: 'Sending…' },
-  waiting: { bubbleStyle: { opacity: 0.7 }, label: 'Waiting for connection…' },
+  sending: { bubbleStyle: { opacity: 0.7 }, label: 'Envoi…' },
+  waiting: { bubbleStyle: { opacity: 0.7 }, label: 'En attente de connexion…' },
   failed: { bubbleStyle: { borderWidth: 2, borderColor: colors.danger } },
 };
 
@@ -39,7 +39,7 @@ export function MessageBubble({
       {/* The retry and delete buttons stay outside the accessible group so screen readers can reach them. */}
       <View
         accessible
-        accessibilityLabel={`${isOwn ? 'You' : authorName}: ${body}${status === 'sent' ? `, ${time}` : ''}`}
+        accessibilityLabel={`${isOwn ? 'Vous' : authorName} : ${body}${status === 'sent' ? `, ${time}` : ''}`}
         style={isOwn ? styles.containerOwn : styles.containerOther}
       >
         {showAuthor && <Text style={styles.author}>{authorName}</Text>}
@@ -53,12 +53,12 @@ export function MessageBubble({
 
       {status === 'failed' && (
         <View style={styles.failed}>
-          <Text style={styles.failedText}>Not sent.</Text>
+          <Text style={styles.failedText}>Non envoyé.</Text>
           <Pressable accessibilityRole="button" onPress={onRetry} hitSlop={8}>
-            <Text style={styles.action}>Retry</Text>
+            <Text style={styles.action}>Renvoyer</Text>
           </Pressable>
           <Pressable accessibilityRole="button" onPress={onDiscard} hitSlop={8}>
-            <Text style={styles.action}>Delete</Text>
+            <Text style={styles.action}>Supprimer</Text>
           </Pressable>
         </View>
       )}

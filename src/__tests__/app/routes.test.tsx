@@ -13,7 +13,7 @@ describe('routes', () => {
   it('shows a not found screen for unknown urls and links back to the messages', async () => {
     const { getPathname } = await renderRoute('/unknown');
 
-    await fireEvent.press(await screen.findByText('Go to messages'));
+    await fireEvent.press(await screen.findByText('Aller aux messages'));
 
     expect(await screen.findByRole('header', { name: 'Conversations' })).toBeOnTheScreen();
     await waitFor(() => expect(getPathname()).toBe('/'));

@@ -19,11 +19,11 @@ export function ConversationView({ conversationId }: { conversationId: number })
 
   return (
     <>
-      {isPending && <Spinner label="Loading conversation" style={styles.fill} />}
+      {isPending && <Spinner label="Chargement de la conversation" style={styles.fill} />}
 
       {isError && (
         <ErrorState
-          title="Conversation unavailable"
+          title="Conversation indisponible"
           error={error}
           onRetry={() => void refetch()}
           isRetrying={isFetching}

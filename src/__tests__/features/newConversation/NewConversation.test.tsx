@@ -16,7 +16,7 @@ const textOf = (element: Parameters<typeof within>[0]) =>
 const findUserOptions = async () => (await screen.findAllByRole('button')).map(textOf);
 
 const goBackToList = async () => {
-  await fireEvent.press(await screen.findByRole('link', { name: 'Back to conversations' }));
+  await fireEvent.press(await screen.findByRole('link', { name: 'Retour aux conversations' }));
   await screen.findByRole('header', { name: 'Conversations' });
 };
 
@@ -24,20 +24,20 @@ describe('NewConversation', () => {
   it('is reachable from the conversation list', async () => {
     await renderRoute('/');
 
-    await fireEvent.press(await screen.findByRole('link', { name: 'New conversation' }));
+    await fireEvent.press(await screen.findByRole('link', { name: 'Nouvelle conversation' }));
 
-    expect(await screen.findByRole('header', { name: 'New conversation' })).toBeOnTheScreen();
+    expect(await screen.findByRole('header', { name: 'Nouvelle conversation' })).toBeOnTheScreen();
   });
 
   it('lists the other users alphabetically and flags existing conversations', async () => {
     await renderRoute('/conversations/new');
 
-    expect(await findUserOptions()).toEqual(['Elodie Open conversation', 'Jeremie Open conversation', 'Patrick']);
+    expect(await findUserOptions()).toEqual(['Elodie Ouvrir la conversation', 'Jeremie Ouvrir la conversation', 'Patrick']);
   });
 
   it('filters users by nickname', async () => {
     await renderRoute('/conversations/new');
-    const search = await screen.findByLabelText('Search users');
+    const search = await screen.findByLabelText('Rechercher un utilisateur');
 
     await fireEvent.changeText(search, 'pat');
 
@@ -45,7 +45,7 @@ describe('NewConversation', () => {
 
     await fireEvent.changeText(search, 'zzz');
 
-    expect(await screen.findByText('No user matches “zzz”.')).toBeOnTheScreen();
+    expect(await screen.findByText('Aucun utilisateur ne correspond à « zzz ».')).toBeOnTheScreen();
   });
 
   it('opens the existing conversation instead of creating a duplicate', async () => {
@@ -60,7 +60,7 @@ describe('NewConversation', () => {
 
     await fireEvent.press(await screen.findByRole('button', { name: /Jeremie/ }));
 
-    expect(await screen.findByLabelText('Messages with Jeremie')).toBeOnTheScreen();
+    expect(await screen.findByLabelText('Messages avec Jeremie')).toBeOnTheScreen();
     await waitFor(() => expect(getPathname()).toBe('/conversations/1'));
     expect(created).toBe(false);
   });
@@ -119,7 +119,7 @@ describe('NewConversation', () => {
 
     await fireEvent.press(await screen.findByRole('button', { name: /Patrick/ }));
 
-    expect(await screen.findByText(/Could not start the conversation\./)).toBeOnTheScreen();
+    expect(await screen.findByText(/Impossible de démarrer la conversation\./)).toBeOnTheScreen();
     expect(getPathname()).toBe('/conversations/new');
   });
 
@@ -127,9 +127,9 @@ describe('NewConversation', () => {
     server.use(http.get(apiUrl('/users'), () => new HttpResponse(null, { status: 503 }), { once: true }));
     await renderRoute('/conversations/new');
 
-    expect(await screen.findByText('Users unavailable')).toBeOnTheScreen();
+    expect(await screen.findByText('Utilisateurs indisponibles')).toBeOnTheScreen();
 
-    await fireEvent.press(screen.getByRole('button', { name: 'Try again' }));
+    await fireEvent.press(screen.getByRole('button', { name: 'Réessayer' }));
 
     expect(await screen.findByRole('button', { name: /Patrick/ })).toBeOnTheScreen();
   });
@@ -138,8 +138,8 @@ describe('NewConversation', () => {
     server.use(http.get(apiUrl('/conversations/:userId'), () => HttpResponse.json([])));
     await renderRoute('/');
 
-    await fireEvent.press(await screen.findByText('Start a conversation'));
+    await fireEvent.press(await screen.findByText('Démarrer une conversation'));
 
-    expect(await screen.findByRole('header', { name: 'New conversation' })).toBeOnTheScreen();
+    expect(await screen.findByRole('header', { name: 'Nouvelle conversation' })).toBeOnTheScreen();
   });
 });

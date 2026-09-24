@@ -8,8 +8,8 @@ import { server } from '@/test/msw/server';
 import { apiUrl } from '@/test/msw/utils';
 import { renderRoute } from '@/test/renderRoute';
 
-const findComposer = (name = 'Jeremie') => screen.findByLabelText(`Message to ${name}`);
-const getSendButton = () => screen.getByRole('button', { name: 'Send message' });
+const findComposer = (name = 'Jeremie') => screen.findByLabelText(`Message à ${name}`);
+const getSendButton = () => screen.getByRole('button', { name: 'Envoyer le message' });
 
 async function send(text: string, name?: string) {
   await fireEvent.changeText(await findComposer(name), text);
@@ -64,11 +64,11 @@ describe('sending a message', () => {
     await send('On my way');
 
     expect(await screen.findByText('On my way')).toBeOnTheScreen();
-    expect(screen.getByText('Sending…')).toBeOnTheScreen();
+    expect(screen.getByText('Envoi…')).toBeOnTheScreen();
 
     release();
 
-    await waitFor(() => expect(screen.queryByText('Sending…')).toBeNull());
+    await waitFor(() => expect(screen.queryByText('Envoi…')).toBeNull());
     expect(screen.getByText('On my way')).toBeOnTheScreen();
   });
 
@@ -78,11 +78,11 @@ describe('sending a message', () => {
 
     await send('Are you there?');
 
-    expect(await screen.findByText('Not sent.')).toBeOnTheScreen();
+    expect(await screen.findByText('Non envoyé.')).toBeOnTheScreen();
 
-    await fireEvent.press(screen.getByRole('button', { name: 'Retry' }));
+    await fireEvent.press(screen.getByRole('button', { name: 'Renvoyer' }));
 
-    await waitFor(() => expect(screen.queryByText('Not sent.')).toBeNull());
+    await waitFor(() => expect(screen.queryByText('Non envoyé.')).toBeNull());
     expect(screen.getByText('Are you there?')).toBeOnTheScreen();
   });
 
@@ -92,7 +92,7 @@ describe('sending a message', () => {
 
     await send('Oops');
 
-    await fireEvent.press(await screen.findByRole('button', { name: 'Delete' }));
+    await fireEvent.press(await screen.findByRole('button', { name: 'Supprimer' }));
 
     await waitFor(() => expect(screen.queryByText('Oops')).toBeNull());
   });
@@ -105,12 +105,12 @@ describe('sending a message', () => {
     await act(() => onlineManager.setOnline(false));
     await send('See you tomorrow');
 
-    expect(await screen.findByText('Waiting for connection…')).toBeOnTheScreen();
+    expect(await screen.findByText('En attente de connexion…')).toBeOnTheScreen();
     expect(isSaved()).toBe(false);
 
     await act(() => onlineManager.setOnline(true));
 
-    await waitFor(() => expect(screen.queryByText('Waiting for connection…')).toBeNull());
+    await waitFor(() => expect(screen.queryByText('En attente de connexion…')).toBeNull());
     expect(isSaved()).toBe(true);
     expect(screen.getByText('See you tomorrow')).toBeOnTheScreen();
   });
@@ -121,7 +121,7 @@ describe('sending a message', () => {
     await send('Hi Elodie', 'Elodie');
 
     expect(await screen.findByText('Hi Elodie')).toBeOnTheScreen();
-    expect(screen.queryByRole('header', { name: 'No messages yet' })).toBeNull();
+    expect(screen.queryByRole('header', { name: 'Aucun message pour le moment' })).toBeNull();
   });
 
   it('limits the message length and warns when getting close to it', async () => {
@@ -132,6 +132,6 @@ describe('sending a message', () => {
 
     await fireEvent.changeText(composer, 'a'.repeat(MESSAGE_MAX_LENGTH - 50));
 
-    expect(screen.getByText('50 characters left')).toBeOnTheScreen();
+    expect(screen.getByText('50 caractères restants')).toBeOnTheScreen();
   });
 });

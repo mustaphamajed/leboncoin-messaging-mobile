@@ -25,7 +25,7 @@ describe('ConversationList', () => {
     await fireEvent.press(await screen.findByRole('link', { name: /Jeremie/ }));
 
     await waitFor(() => expect(getPathname()).toBe('/conversations/1'));
-    expect(await screen.findByLabelText('Messages with Jeremie')).toBeOnTheScreen();
+    expect(await screen.findByLabelText('Messages avec Jeremie')).toBeOnTheScreen();
   });
 
   it('shows the date of the last message', async () => {
@@ -39,7 +39,7 @@ describe('ConversationList', () => {
   it('shows a loading state while fetching', async () => {
     await renderRoute('/');
 
-    expect(screen.getByLabelText('Loading conversations')).toBeOnTheScreen();
+    expect(screen.getByLabelText('Chargement des conversations')).toBeOnTheScreen();
     await findConversationLinks();
   });
 
@@ -47,7 +47,7 @@ describe('ConversationList', () => {
     server.use(http.get(apiUrl('/conversations/:userId'), () => HttpResponse.json([])));
     await renderRoute('/');
 
-    expect(await screen.findByRole('header', { name: 'No conversations yet' })).toBeOnTheScreen();
+    expect(await screen.findByRole('header', { name: 'Aucune conversation pour le moment' })).toBeOnTheScreen();
   });
 
   it('shows an error with a retry button when the server fails', async () => {
@@ -55,9 +55,9 @@ describe('ConversationList', () => {
     await renderRoute('/');
 
     // The alert container is not an accessibility element (so its button stays focusable), so it is found by its title.
-    expect(await screen.findByText('Conversations unavailable')).toBeOnTheScreen();
+    expect(await screen.findByText('Conversations indisponibles')).toBeOnTheScreen();
 
-    await fireEvent.press(screen.getByRole('button', { name: 'Try again' }));
+    await fireEvent.press(screen.getByRole('button', { name: 'Réessayer' }));
 
     expect(await findConversationLinks()).toHaveLength(2);
   });

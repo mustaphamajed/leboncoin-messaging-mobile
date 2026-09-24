@@ -6,7 +6,7 @@ import { server } from '@/test/msw/server';
 import { apiUrl } from '@/test/msw/utils';
 import { renderRoute } from '@/test/renderRoute';
 
-const findBanner = () => screen.findByLabelText('Connection status');
+const findBanner = () => screen.findByLabelText('État de la connexion');
 
 describe('ConnectionBanner', () => {
   it('stays empty when everything works', async () => {
@@ -22,7 +22,7 @@ describe('ConnectionBanner', () => {
     const banner = await findBanner();
 
     await act(() => onlineManager.setOnline(false));
-    expect(within(banner).getByText(/You are offline/)).toBeOnTheScreen();
+    expect(within(banner).getByText(/Vous êtes hors ligne/)).toBeOnTheScreen();
 
     await act(() => onlineManager.setOnline(true));
     expect(banner).toBeEmptyElement();
@@ -33,9 +33,9 @@ describe('ConnectionBanner', () => {
     await renderRoute('/');
     const banner = await findBanner();
 
-    expect(await within(banner).findByText(/servers are having a hiccup/)).toBeOnTheScreen();
+    expect(await within(banner).findByText(/Nos serveurs rencontrent un souci/)).toBeOnTheScreen();
 
-    await fireEvent.press(screen.getByRole('button', { name: 'Try again' }));
+    await fireEvent.press(screen.getByRole('button', { name: 'Réessayer' }));
 
     await waitFor(() => expect(banner).toBeEmptyElement());
   });
@@ -44,7 +44,7 @@ describe('ConnectionBanner', () => {
     server.use(http.get(apiUrl('/conversations/:userId'), () => new HttpResponse(null, { status: 400 })));
     await renderRoute('/');
 
-    await screen.findByText('Conversations unavailable');
+    await screen.findByText('Conversations indisponibles');
 
     expect(await findBanner()).toBeEmptyElement();
   });

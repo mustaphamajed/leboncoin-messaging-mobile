@@ -14,7 +14,7 @@ export function ConversationHeader({ participant, lastMessageTimestamp }: Conver
   return (
     <View style={styles.header}>
       <Link href="/" dismissTo asChild>
-        <Pressable accessibilityRole="link" accessibilityLabel="Back to conversations" hitSlop={8}>
+        <Pressable accessibilityRole="link" accessibilityLabel="Retour aux conversations" hitSlop={8}>
           {({ pressed }) => (
             <View style={[styles.back, pressed && styles.backPressed]}>
               <Text style={styles.backIcon}>‹</Text>
@@ -27,7 +27,7 @@ export function ConversationHeader({ participant, lastMessageTimestamp }: Conver
         <Text accessibilityRole="header" numberOfLines={1} style={styles.nickname}>
           {participant.nickname}
         </Text>
-        <Text style={styles.lastMessage}>Last message {formatRelativeDate(lastMessageTimestamp)}</Text>
+        <Text style={styles.lastMessage}>Dernier message : {formatRelativeDate(lastMessageTimestamp)}</Text>
       </View>
     </View>
   );

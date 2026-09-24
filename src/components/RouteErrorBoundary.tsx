@@ -9,11 +9,11 @@ export function RouteErrorBoundary({ retry }: ErrorBoundaryProps) {
   return (
     <View accessibilityRole="alert" style={styles.container}>
       <Text accessibilityRole="header" style={styles.title}>
-        Something went wrong
+        Une erreur est survenue
       </Text>
-      <Text style={styles.message}>An unexpected error occurred. Trying again usually fixes it.</Text>
+      <Text style={styles.message}>Une erreur inattendue s’est produite. Réessayer résout généralement le problème.</Text>
       <View style={styles.action}>
-        <Button label="Try again" onPress={retry} />
+        <Button label="Réessayer" onPress={retry} />
       </View>
     </View>
   );
