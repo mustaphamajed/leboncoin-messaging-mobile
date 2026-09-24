@@ -38,6 +38,7 @@ Then open the app in Expo Go, an iOS simulator (`i`) or an Android emulator (`a`
 | Variable | Default | Description |
 | --- | --- | --- |
 | `EXPO_PUBLIC_API_URL` | `http://localhost:3005` | Base URL of the API |
+| `EXPO_PUBLIC_SIMULATED_FAILURE_RATE` | `0` | Share of requests (0 to 1) that fail with a 503 in development, to try the error states |
 
 `localhost` only works on the iOS simulator. On an Android emulator use `http://10.0.2.2:3005`, and on a physical device use your machine's LAN IP.
 

@@ -1,6 +1,8 @@
 import { create, isAxiosError, isCancel, type AxiosRequestConfig } from 'axios';
 import type { z } from 'zod';
 
+import { installFailureSimulation, parseFailureRate } from './failureSimulation';
+
 export const API_URL = (process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:3005').replace(/\/+$/, '');
 
 const DEFAULT_TIMEOUT_MS = 10_000;
@@ -37,6 +39,10 @@ const axiosInstance = create({
   timeout: DEFAULT_TIMEOUT_MS,
   headers: { Accept: 'application/json' },
 });
+
+if (__DEV__) {
+  installFailureSimulation(axiosInstance, parseFailureRate(process.env.EXPO_PUBLIC_SIMULATED_FAILURE_RATE));
+}
 
 function toApiError(error: unknown): unknown {
   if (isCancel(error) || !isAxiosError(error)) return error;
