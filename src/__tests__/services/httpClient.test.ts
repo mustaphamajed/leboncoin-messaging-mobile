@@ -1,6 +1,3 @@
-/**
- * @jest-environment node
- */
 import { isCancel } from 'axios';
 import { delay, http, HttpResponse } from 'msw';
 import { setupServer } from 'msw/node';

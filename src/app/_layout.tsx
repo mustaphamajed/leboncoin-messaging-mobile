@@ -1,5 +1,11 @@
 import { Stack } from 'expo-router';
 
+import { AppProviders } from '@/providers';
+
 export default function RootLayout() {
-  return <Stack />;
+  return (
+    <AppProviders>
+      <Stack />
+    </AppProviders>
+  );
 }
