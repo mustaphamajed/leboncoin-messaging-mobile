@@ -1,4 +1,5 @@
 export * from './Avatar';
+export * from './BackLink';
 export * from './Button';
 export * from './EmptyState';
 export * from './ErrorState';

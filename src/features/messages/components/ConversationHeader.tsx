@@ -1,7 +1,6 @@
-import { Link } from 'expo-router';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
-import { Avatar } from '@/components';
+import { Avatar, BackLink } from '@/components';
 import { colors, formatRelativeDate } from '@/lib';
 import type { User } from '@/services';
 
@@ -13,15 +12,7 @@ interface ConversationHeaderProps {
 export function ConversationHeader({ participant, lastMessageTimestamp }: ConversationHeaderProps) {
   return (
     <View style={styles.header}>
-      <Link href="/" dismissTo asChild>
-        <Pressable accessibilityRole="link" accessibilityLabel="Retour aux conversations" hitSlop={8}>
-          {({ pressed }) => (
-            <View style={[styles.back, pressed && styles.backPressed]}>
-              <Text style={styles.backIcon}>‹</Text>
-            </View>
-          )}
-        </Pressable>
-      </Link>
+      <BackLink />
       <Avatar id={participant.id} name={participant.nickname} />
       <View style={styles.content}>
         <Text accessibilityRole="header" numberOfLines={1} style={styles.nickname}>
@@ -42,21 +33,6 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     borderBottomWidth: StyleSheet.hairlineWidth,
     borderBottomColor: colors.border,
-  },
-  back: {
-    width: 40,
-    height: 40,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 9999,
-  },
-  backPressed: {
-    backgroundColor: colors.pressed,
-  },
-  backIcon: {
-    fontSize: 32,
-    lineHeight: 34,
-    color: colors.text,
   },
   content: {
     flexShrink: 1,
