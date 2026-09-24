@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native';
 
-import { colors } from '@/lib/theme';
+import { colors } from '@/lib';
 
 export default function HomeScreen() {
   return (
