@@ -88,4 +88,5 @@ app (routes) → features (components → hooks) → services → httpClient →
 ## Quality
 
 - TypeScript in strict mode, with `noUnusedLocals` and `noUnusedParameters`.
+- Tests run in the UTC time zone, so date assertions pass on every machine.
 - **CI** ([.github/workflows/ci.yml](.github/workflows/ci.yml)) runs type-check, lint, tests and build on every pull request and on every push to `main`.
