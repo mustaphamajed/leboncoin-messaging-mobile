@@ -61,6 +61,7 @@ Then open the app in Expo Go, an iOS simulator (`i`) or an Android emulator (`a`
 src/
 ├── app/            # Expo Router routes: root layout (navigator) and thin screens
 ├── providers/      # App-wide providers: query client and logged user
+├── navigation/     # Root stack navigator and its header options
 ├── features/       # Business logic and UI, grouped by domain
 │   ├── conversations/    # conversation list and single conversation
 │   ├── newConversation/  # user search and conversation creation

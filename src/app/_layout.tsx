@@ -1,11 +1,12 @@
-import { Stack } from 'expo-router';
-
+import { RootNavigator } from '@/navigation';
 import { AppProviders } from '@/providers';
+
+export { RouteErrorBoundary as ErrorBoundary } from '@/components';
 
 export default function RootLayout() {
   return (
     <AppProviders>
-      <Stack />
+      <RootNavigator />
     </AppProviders>
   );
 }
